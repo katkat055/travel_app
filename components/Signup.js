@@ -83,7 +83,6 @@ export default function Signup({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      {/* StatusBar */}
     </View>
   );
 }
