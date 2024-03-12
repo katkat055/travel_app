@@ -3,6 +3,7 @@ import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, database } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import { styles } from "../styles.js";
 
 export default function Signup({ navigation }) {
   const [name, setName] = useState("");
@@ -22,20 +23,19 @@ export default function Signup({ navigation }) {
         displayName: name,
         email: email,
         uid: user.uid,
-        phoneNumber: "",
       });
     } catch (error) {
-      Alert.alert(error.message);
+      Alert.alert("Error", error.message);
     }
   };
 
   return (
-    <View>
+    <View style={styles.login}>
       {/* White Overlay */}
       <View />
       {/* Title */}
-      <Text>Sign Up</Text>
-      <View>
+      <Text style={styles.title}>Sign Up</Text>
+      <View style={{ width: "70%" }}>
         {/* Input Fields */}
         <TextInput
           placeholder="Enter name"
@@ -44,6 +44,7 @@ export default function Signup({ navigation }) {
           textContentType="name"
           value={name}
           onChangeText={(text) => setName(text)}
+          style={styles.form}
         />
         <TextInput
           placeholder="Enter email"
@@ -53,20 +54,19 @@ export default function Signup({ navigation }) {
           autoFocus={true}
           value={email}
           onChangeText={(text) => setEmail(text)}
+          style={styles.form}
         />
         <TextInput
           placeholder="Enter password"
           autoCapitalize="none"
-          autoCorrect={false}
-          showSoftInputOnFocus={false}
           secureTextEntry={true}
-          textContentType="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
+          style={styles.form}
         />
         {/* Signup Button */}
-        <TouchableOpacity onPress={onHandleSignup}>
-          <Text>Sign Up</Text>
+        <TouchableOpacity onPress={onHandleSignup} style={styles.button}>
+          <Text style={{ color: "white" }}>Sign Up</Text>
         </TouchableOpacity>
         {/* Navigation to Login Screen */}
         <View
@@ -79,7 +79,7 @@ export default function Signup({ navigation }) {
         >
           <Text>Already have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text>Log In</Text>
+            <Text style={styles.underline}>Log In</Text>
           </TouchableOpacity>
         </View>
       </View>
