@@ -31,4 +31,9 @@ export const styles = StyleSheet.create({
   underline: {
     textDecorationLine: "underline",
   },
+  align: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
 });

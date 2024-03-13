@@ -7,7 +7,6 @@ import { styles } from "../styles.js";
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [session, setSession] = useState(null);
 
   const onHandleLogin = () => {
     if (email !== "" && password !== "") {
@@ -20,17 +19,6 @@ export default function Login({ navigation }) {
         .catch((err) => Alert.alert("Login error", err.message));
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigation.navigate('Home');
-      }
-    });
-
-    // Cleanup function to unsubscribe from auth state changes
-    return () => unsubscribe();
-  }, []);
 
   return (
     <View style={styles.questions}>
