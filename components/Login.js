@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { styles } from "../styles.js";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [session, setSession] = useState(null);
 
   const onHandleLogin = () => {
     if (email !== "" && password !== "") {
@@ -19,8 +20,20 @@ export default function Login({ navigation }) {
         .catch((err) => Alert.alert("Login error", err.message));
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigation.navigate('Home');
+      }
+    });
+
+    // Cleanup function to unsubscribe from auth state changes
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <View style={styles.login}>
+    <View style={styles.questions}>
       {/* White Overlay */}
       <View />
       {/* Title */}
@@ -48,7 +61,7 @@ export default function Login({ navigation }) {
           style={styles.form}
         />
         {/* Login Button */}
-        <TouchableOpacity onPress={onHandleLogin} style={styles.button}>
+        <TouchableOpacity onPress={onHandleLogin} style={styles.btn}>
           <Text style={{ color: "white" }}>Log In</Text>
         </TouchableOpacity>
         {/* Navigation to Signup Screen */}

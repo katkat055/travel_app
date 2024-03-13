@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  login: {
+  questions: {
     flex: 1,
     alignItems: "center",
     marginTop: 50,
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5,
   },
-  button: {
+  btn: {
     backgroundColor: "gray",
     padding: 5,
     alignItems: "center",

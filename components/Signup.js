@@ -30,7 +30,7 @@ export default function Signup({ navigation }) {
   };
 
   return (
-    <View style={styles.login}>
+    <View style={styles.questions}>
       {/* White Overlay */}
       <View />
       {/* Title */}
@@ -65,7 +65,7 @@ export default function Signup({ navigation }) {
           style={styles.form}
         />
         {/* Signup Button */}
-        <TouchableOpacity onPress={onHandleSignup} style={styles.button}>
+        <TouchableOpacity onPress={onHandleSignup} style={styles.btn}>
           <Text style={{ color: "white" }}>Sign Up</Text>
         </TouchableOpacity>
         {/* Navigation to Login Screen */}
