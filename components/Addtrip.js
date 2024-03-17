@@ -1,14 +1,36 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { db, collection, doc, setDoc } from "firebase/firestore";
 
-export default function Addtrip({ navigation }) {
-  const [tripDestination, setTripDestination] = useState("");
-  const [tripDateTime, setTripDateTime] = useState(new Date());
-  const [tripBudget, setTripBudget] = useState("");
+export default function Addtrip({ navigation, route }) {
+  const [destination, setDestination] = useState("");
+  const [tripDate, setTripDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [budget, setBudget] = useState("");
+  const { user, uid } = route.params;
 
-  const handleAddTrip = () => {};
+  const handleAddTrip = async () => {
+    try {
+      if (!user) {
+        Alert.alert("Error", "User is not logged in.");
+        navigation.navigate("Login");
+      }
+
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(collection(userRef, "trips"), {
+        destination: destination,
+        tripDate: tripDate,
+        endDate: endDate,
+        budget: budget,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      Alert.alert("Success", "Trip added successfully!");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
 
   return (
     <View style={styles.questions}>
@@ -16,18 +38,18 @@ export default function Addtrip({ navigation }) {
       <View style={{ width: "70%" }}>
         <TextInput
           placeholder="Enter your destination"
-          value={tripDestination}
-          onChangeText={setTripDestination}
+          value={destination}
+          onChangeText={setDestination}
           style={styles.form}
         />
         <View style={styles.align}>
           <Text>From:</Text>
           <DateTimePicker
             mode="datetime"
-            value={tripDateTime}
+            value={tripDate}
             onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || tripDateTime;
-              setTripDateTime(currentDate);
+              const currentDate = selectedDate || tripDate;
+              setTripDate(currentDate);
             }}
           />
         </View>
@@ -35,17 +57,17 @@ export default function Addtrip({ navigation }) {
           <Text>Until:</Text>
           <DateTimePicker
             mode="datetime"
-            value={tripDateTime}
+            value={endDate}
             onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || tripDateTime;
-              setTripDateTime(currentDate);
+              const currentDate = selectedDate || endDate;
+              setEndDate(currentDate);
             }}
           />
         </View>
         <TextInput
           placeholder="Enter your budget"
-          value={tripBudget}
-          onChangeText={setTripBudget}
+          value={budget}
+          onChangeText={setBudget}
           keyboardType="numeric"
           style={styles.form}
         />

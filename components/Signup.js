@@ -78,7 +78,7 @@ export default function Signup({ navigation }) {
           }}
         >
           <Text>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Login", { name } )}>
             <Text style={styles.underline}>Log In</Text>
           </TouchableOpacity>
         </View>

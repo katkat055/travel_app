@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, database } from "../config/firebase";
 import { styles } from "../styles.js";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState(""); 
+  const [uid, setUid] = useState("");
 
-  const onHandleLogin = () => {
+  const onHandleLogin = async () => {
     if (email !== "" && password !== "") {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          // If login successful, navigate to another screen
-          navigation.navigate("Home");
-          console.log("Login success");
-        })
-        .catch((err) => Alert.alert("Login error", err.message));
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        const user = auth.currentUser;
+        const userRef = doc(database, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setName(userDoc.data().displayName); 
+          setUid(user.uid);
+        }
+        navigation.navigate("Home", { user, name, uid }); 
+        console.log("Login success");
+      } catch (error) {
+        Alert.alert("Login error", error.message);
+      }
     }
   };
 
