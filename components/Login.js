@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, database } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { styles } from "../styles.js";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -16,7 +16,7 @@ export default function Login({ navigation }) {
       try {
         await signInWithEmailAndPassword(auth, email, password);
         const user = auth.currentUser;
-        const userRef = doc(database, "users", user.uid);
+        const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           setName(userDoc.data().displayName); 

@@ -16,14 +16,17 @@ export default function Addtrip({ navigation, route }) {
       if (!user) {
         Alert.alert("Error", "User is not logged in.");
         navigation.navigate("Login");
+        return; 
       }
-
+  
       const userRef = doc(db, "users", user.uid);
-      await setDoc(collection(userRef, "trips"), {
+      const tripsCollectionRef = collection(userRef, "trips"); 
+      await setDoc(tripsCollectionRef.doc(), { 
         destination: destination,
         tripDate: tripDate,
         endDate: endDate,
         budget: budget,
+        uid: uid,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
       Alert.alert("Success", "Trip added successfully!");
@@ -31,6 +34,7 @@ export default function Addtrip({ navigation, route }) {
       Alert.alert("Error", error.message);
     }
   };
+  
 
   return (
     <View style={styles.questions}>

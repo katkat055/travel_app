@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, database } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { styles } from "../styles.js";
 
@@ -18,7 +18,7 @@ export default function Signup({ navigation }) {
         password
       );
       const user = userCredential.user;
-      const userRef = doc(database, "users", user.uid);
+      const userRef = doc(db, "users", user.uid);
       await setDoc(userRef, {
         displayName: name,
         email: email,
