@@ -36,4 +36,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
+  allpadding: {
+    margin: 10
+  }
 });
