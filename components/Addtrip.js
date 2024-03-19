@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { db, collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import { db } from "../config/firebase.js";
 
 export default function Addtrip({ navigation, route }) {
   const [destination, setDestination] = useState("");
@@ -13,28 +14,21 @@ export default function Addtrip({ navigation, route }) {
 
   const handleAddTrip = async () => {
     try {
-      if (!user) {
-        Alert.alert("Error", "User is not logged in.");
-        navigation.navigate("Login");
-        return; 
-      }
-  
-      const userRef = doc(db, "users", user.uid);
-      const tripsCollectionRef = collection(userRef, "trips"); 
-      await setDoc(tripsCollectionRef.doc(), { 
+      const docRef = await addDoc(collection(db, `users/${user.uid}/trips`), {
         destination: destination,
         tripDate: tripDate,
         endDate: endDate,
         budget: budget,
-        uid: uid,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: new Date(),
       });
-      Alert.alert("Success", "Trip added successfully!");
+      setBudget(docRef);
+      Alert.alert("Trip added", "Your trip has been successfully added.");
+      console.log("Trip added with ID: ", docRef.id);
     } catch (error) {
-      Alert.alert("Error", error.message);
+      console.log(error);
+      Alert.alert("Failed to save trip", "An error occurred while saving your trip. Please try again.");
     }
   };
-  
 
   return (
     <View style={styles.questions}>
