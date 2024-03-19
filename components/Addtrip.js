@@ -23,7 +23,7 @@ export default function Addtrip({ navigation, route }) {
       });
       setBudget(docRef);
       Alert.alert("Trip added", "Your trip has been successfully added.");
-      console.log("Trip added with ID: ", docRef.id);
+      // console.log("Trip added with ID: ", docRef.id);
     } catch (error) {
       console.log(error);
       Alert.alert(
