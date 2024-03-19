@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Pressable, TouchableOpacity } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import { styles } from "../styles.js";
@@ -32,12 +32,14 @@ export default function Home({ navigation, route }) {
 
   return (
     <View style={styles.allpadding}>
-      <Text>Welcome, {name ? name : "User"}</Text>
-      <Button
-        title="Add Trip"
+      <Text style={styles.title}>Welcome, {name ? name : "User"}</Text>
+      <TouchableOpacity
         onPress={() => navigation.navigate("Addtrip", { user, uid })}
-      />
-      <View>
+        style={styles.btn}
+      >
+        <Text style={{ color: "white" }}>Add Trip</Text>
+      </TouchableOpacity>
+      <View style={{ marginTop: 10 }}>
         {trips.map((trip) => (
           <View key={trip.id} style={styles.form}>
             <Text>Destination: {trip.trip.destination}</Text>

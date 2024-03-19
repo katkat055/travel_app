@@ -26,7 +26,10 @@ export default function Addtrip({ navigation, route }) {
       console.log("Trip added with ID: ", docRef.id);
     } catch (error) {
       console.log(error);
-      Alert.alert("Failed to save trip", "An error occurred while saving your trip. Please try again.");
+      Alert.alert(
+        "Failed to save trip",
+        "An error occurred while saving your trip. Please try again."
+      );
     }
   };
 

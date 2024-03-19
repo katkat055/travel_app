@@ -37,6 +37,6 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   allpadding: {
-    margin: 10
+    margin: 20
   }
 });
