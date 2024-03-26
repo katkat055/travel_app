@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
-import { doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import { styles } from "../styles.js";
 
-export default function Viewtrip({ route }) {
+export default function Viewtrip({ navigation, route }) {
   const { tripId, uid } = route.params;
   const [trip, setTrip] = useState(null);
 
@@ -31,6 +31,19 @@ export default function Viewtrip({ route }) {
     return date.toLocaleString();
   };
 
+  const deleteTrip = async () => {
+    try {
+      await deleteDoc(doc(db, `users/${uid}/trips/${tripId}`));
+      setTrip(null);
+      console.log("Trip deleted successfully!");
+      alert("Trip deleted successfully!");
+      navigation.navigate("Home", { uid }); 
+    } catch (error) {
+      console.error("Error deleting trip: ", error);
+      alert("Trip deleted successfully!");
+    }
+  };
+
   if (!trip) {
     return (
       <View>
@@ -50,6 +63,7 @@ export default function Viewtrip({ route }) {
           <Text style={{ color: "white" }}>Edit 📝</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={deleteTrip}
           style={[styles.btn, { width: "50%", backgroundColor: "red" }]}
         >
           <Text style={{ color: "white" }}>Delete 🗑️</Text>
