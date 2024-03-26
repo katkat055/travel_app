@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Share } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import * as Calendar from "expo-calendar";
@@ -68,6 +68,16 @@ export default function Home({ navigation, route }) {
   //   }
   // };
 
+  const shareTrip = (destination, tripDate, endDate, budget) => {
+    try {
+      Share.share({
+        message: `View my trip! Destination: ${destination}, Starts: ${tripDate}, Ends: ${endDate}, Budget: $${budget}`,
+      });
+    } catch (error) {
+      alert("Unable to share trip");
+    }
+  };
+
   if (loading) {
     return (
       <View>
@@ -117,6 +127,19 @@ export default function Home({ navigation, route }) {
             >
               <Text style={{ color: "white" }}>Add to Calendar</Text>
             </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() =>
+                shareTrip(
+                  trip.trip.destination,
+                  formatDate(trip.trip.tripDate),
+                  formatDate(trip.trip.endDate),
+                  trip.trip.budget
+                )
+              }
+              style={styles.btn}
+            >
+              <Text style={{ color: "white" }}>Share Trip</Text>
+            </TouchableOpacity>
           </View>
         ))}
       </View>
