@@ -102,19 +102,27 @@ export default function Home({ navigation, route }) {
             <Text>Start Date: {formatDate(trip.trip.tripDate)}</Text>
             <Text>End Date: {formatDate(trip.trip.endDate)}</Text>
             <Text>Budget: ${trip.trip.budget}</Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Viewtrip", {
-                  tripId: trip.id,
-                  user: user,
-                  uid: uid,
-                })
-              }
-              style={styles.btn}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 10,
+                marginTop: 10,
+              }}
             >
-              <Text style={{ color: "white" }}>View Trip</Text>
-            </TouchableOpacity>
-            {/* <TouchableOpacity
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Viewtrip", {
+                    tripId: trip.id,
+                    user: user,
+                    uid: uid,
+                  })
+                }
+                style={[styles.btn, { width: '45%' }]}
+              >
+                <Text style={{ color: "white" }}>View Trip</Text>
+              </TouchableOpacity>
+              {/* <TouchableOpacity
               onPress={() =>
                 addEventToCalendar(
                   trip.trip.destination,
@@ -127,19 +135,20 @@ export default function Home({ navigation, route }) {
             >
               <Text style={{ color: "white" }}>Add to Calendar</Text>
             </TouchableOpacity> */}
-            <TouchableOpacity
-              onPress={() =>
-                shareTrip(
-                  trip.trip.destination,
-                  formatDate(trip.trip.tripDate),
-                  formatDate(trip.trip.endDate),
-                  trip.trip.budget
-                )
-              }
-              style={styles.btn}
-            >
-              <Text style={{ color: "white" }}>Share Trip</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  shareTrip(
+                    trip.trip.destination,
+                    formatDate(trip.trip.tripDate),
+                    formatDate(trip.trip.endDate),
+                    trip.trip.budget
+                  )
+                }
+                style={[styles.btn, { width: '45%' }]}
+              >
+                <Text style={{ color: "white" }}>Share Trip</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ))}
       </View>

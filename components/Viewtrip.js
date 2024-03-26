@@ -37,7 +37,7 @@ export default function Viewtrip({ navigation, route }) {
       setTrip(null);
       console.log("Trip deleted successfully!");
       alert("Trip deleted successfully!");
-      navigation.navigate("Home", { uid }); 
+      navigation.navigate("Home", { uid });
     } catch (error) {
       console.error("Error deleting trip: ", error);
       alert("Trip deleted successfully!");
@@ -59,9 +59,9 @@ export default function Viewtrip({ navigation, route }) {
       <Text>End Date: {formatDate(trip.endDate)}</Text>
       <Text>Budget: ${trip.budget}</Text>
       <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
-        <TouchableOpacity style={[styles.btn, { width: "50%" }]}>
+        {/* <TouchableOpacity style={[styles.btn, { width: "50%" }]}>
           <Text style={{ color: "white" }}>Edit 📝</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={deleteTrip}
           style={[styles.btn, { width: "50%", backgroundColor: "red" }]}
