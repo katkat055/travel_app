@@ -40,28 +40,21 @@ export default function Home({ navigation, route }) {
         const calendars = await Calendar.getCalendarsAsync(
           Calendar.EntityTypes.EVENT
         );
-        if (calendars.length > 0) {
-          const selectedCalendar = await selectCalendar(calendars);
-          if (selectedCalendar) {
-            const eventDetails = {
-              title: `Trip to ${destination}`,
-              startDate: new Date(tripDate),
-              endDate: new Date(endDate),
-              timeZone: "local",
-              accessLevel: Calendar.CalendarAccessLevel.DEFAULT,
-            };
-            await Calendar.createEventAsync(selectedCalendar.id, eventDetails);
-            Alert.alert("Success", "Trip added to calendar!");
-          } else {
-            Alert.alert(
-              "Calendar Not Selected",
-              "Please select a calendar to add the trip."
-            );
-          }
+        const defaultCalendar = calendars.find((cal) => cal.isPrimary);
+        if (defaultCalendar) {
+          const eventDetails = {
+            title: `Trip to ${destination}`,
+            startDate: new Date(tripDate),
+            endDate: new Date(endDate),
+            timeZone: "local",
+            accessLevel: Calendar.CalendarAccessLevel.DEFAULT,
+          };
+          await Calendar.createEventAsync(defaultCalendar.id, eventDetails);
+          Alert.alert("Success", "Trip added to calendar!");
         } else {
           Alert.alert(
-            "No Calendars Found",
-            "No calendars found on your device. Please make sure you have at least one calendar set up."
+            "Calendar Not Found",
+            "No primary calendar found. Please make sure you have a primary calendar set up on your device."
           );
         }
       } else {
@@ -151,7 +144,7 @@ export default function Home({ navigation, route }) {
                   addToCalendar(
                     trip.trip.destination,
                     trip.trip.tripDate.toDate(),
-                    trip.trip.endDate.toDate()
+                    trip.trip.endDate.toDate() 
                   )
                 }
                 style={[styles.btn]}
