@@ -21,9 +21,8 @@ export default function Addtrip({ navigation, route }) {
         budget: budget,
         createdAt: new Date(),
       });
-      setBudget(docRef);
       Alert.alert("Trip added", "Your trip has been successfully added.");
-      // console.log("Trip added with ID: ", docRef.id);
+      navigation.navigate("Home", { uid: user.uid }); 
     } catch (error) {
       console.log(error);
       Alert.alert(
@@ -49,8 +48,9 @@ export default function Addtrip({ navigation, route }) {
             mode="datetime"
             value={tripDate}
             onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || tripDate;
-              setTripDate(currentDate);
+              if (selectedDate) {
+                setTripDate(selectedDate);
+              }
             }}
           />
         </View>
@@ -60,8 +60,9 @@ export default function Addtrip({ navigation, route }) {
             mode="datetime"
             value={endDate}
             onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || endDate;
-              setEndDate(currentDate);
+              if (selectedDate) {
+                setEndDate(selectedDate);
+              }
             }}
           />
         </View>
