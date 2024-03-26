@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Share } from "react-native";
+import { View, Text, TouchableOpacity, Share, Alert } from "react-native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import * as Calendar from "expo-calendar";
@@ -33,40 +33,51 @@ export default function Home({ navigation, route }) {
     return date.toLocaleString();
   };
 
-  // const addEventToCalendar = async (destination, tripDate, endDate, budget) => {
-  //   try {
-  //     const { status } = await Calendar.requestCalendarPermissionsAsync();
-  //     if (status === "granted") {
-  //       console.log("Permissions granted. Fetching available calendars...");
-  //       const calendars = await Calendar.getCalendarsAsync(
-  //         Calendar.EntityTypes.EVENT
-  //       );
-  //       const defaultCalendar =
-  //         calendars.find((calendar) => calendar.isPrimary) || calendars[0];
-  //       if (defaultCalendar) {
-  //         const eventConfig = {
-  //           destination,
-  //           tripDate,
-  //           endDate,
-  //           budget,
-  //         };
-  //         console.log("eventConfig:", eventConfig);
-  //         const eventId = await Calendar.createEventAsync(
-  //           defaultCalendar.id,
-  //           eventConfig
-  //         );
-  //         console.log(eventId);
-  //         Alert.alert("Success", "Event added to your calendar");
-  //       } else {
-  //         console.warn("No available calendars found.");
-  //       }
-  //     } else {
-  //       console.warn("Calendar permission not granted.");
-  //     }
-  //   } catch (error) {
-  //     console.warn(error);
-  //   }
-  // };
+  const addToCalendar = async (destination, tripDate, endDate) => {
+    try {
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+      if (status === "granted") {
+        const calendars = await Calendar.getCalendarsAsync(
+          Calendar.EntityTypes.EVENT
+        );
+        if (calendars.length > 0) {
+          const selectedCalendar = await selectCalendar(calendars);
+          if (selectedCalendar) {
+            const eventDetails = {
+              title: `Trip to ${destination}`,
+              startDate: new Date(tripDate),
+              endDate: new Date(endDate),
+              timeZone: "local",
+              accessLevel: Calendar.CalendarAccessLevel.DEFAULT,
+            };
+            await Calendar.createEventAsync(selectedCalendar.id, eventDetails);
+            Alert.alert("Success", "Trip added to calendar!");
+          } else {
+            Alert.alert(
+              "Calendar Not Selected",
+              "Please select a calendar to add the trip."
+            );
+          }
+        } else {
+          Alert.alert(
+            "No Calendars Found",
+            "No calendars found on your device. Please make sure you have at least one calendar set up."
+          );
+        }
+      } else {
+        Alert.alert(
+          "Permission Denied",
+          "Calendar access permission is required to add trips to your calendar."
+        );
+      }
+    } catch (error) {
+      console.error("Error adding trip to calendar:", error);
+      Alert.alert(
+        "Error",
+        "Failed to add trip to calendar. Please try again later."
+      );
+    }
+  };
 
   const shareTrip = (destination, tripDate, endDate, budget) => {
     try {
@@ -118,23 +129,10 @@ export default function Home({ navigation, route }) {
                     uid: uid,
                   })
                 }
-                style={[styles.btn, { width: '45%' }]}
+                style={[styles.btn]}
               >
                 <Text style={{ color: "white" }}>View Trip</Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity
-              onPress={() =>
-                addEventToCalendar(
-                  trip.trip.destination,
-                  trip.trip.tripDate,
-                  trip.trip.endDate,
-                  trip.trip.budget
-                )
-              }
-              style={styles.btn}
-            >
-              <Text style={{ color: "white" }}>Add to Calendar</Text>
-            </TouchableOpacity> */}
               <TouchableOpacity
                 onPress={() =>
                   shareTrip(
@@ -144,9 +142,21 @@ export default function Home({ navigation, route }) {
                     trip.trip.budget
                   )
                 }
-                style={[styles.btn, { width: '45%' }]}
+                style={[styles.btn]}
               >
                 <Text style={{ color: "white" }}>Share Trip</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  addToCalendar(
+                    trip.trip.destination,
+                    trip.trip.tripDate.toDate(),
+                    trip.trip.endDate.toDate()
+                  )
+                }
+                style={[styles.btn]}
+              >
+                <Text style={{ color: "white" }}>Add to Calendar</Text>
               </TouchableOpacity>
             </View>
           </View>
