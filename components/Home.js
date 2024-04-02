@@ -77,44 +77,44 @@ export default function Home({ navigation, route }) {
     }
   };
 
-  const addToCalendar = async (destination, tripDate, endDate) => {
-    try {
-      const { status } = await Calendar.requestCalendarPermissionsAsync();
-      if (status === "granted") {
-        const calendars = await Calendar.getCalendarsAsync(
-          Calendar.EntityTypes.EVENT
-        );
-        const defaultCalendar = calendars.find((cal) => cal.isPrimary);
-        if (defaultCalendar) {
-          const eventDetails = {
-            title: `Trip to ${destination}`,
-            startDate: new Date(tripDate),
-            endDate: new Date(endDate),
-            timeZone: "local",
-            accessLevel: Calendar.CalendarAccessLevel.DEFAULT,
-          };
-          await Calendar.createEventAsync(defaultCalendar.id, eventDetails);
-          Alert.alert("Success", "Trip added to calendar!");
-        } else {
-          Alert.alert(
-            "Calendar Not Found",
-            "No primary calendar found. Please make sure you have a primary calendar set up on your device."
-          );
-        }
-      } else {
-        Alert.alert(
-          "Permission Denied",
-          "Calendar access permission is required to add trips to your calendar."
-        );
-      }
-    } catch (error) {
-      console.error("Error adding trip to calendar:", error);
-      Alert.alert(
-        "Error",
-        "Failed to add trip to calendar. Please try again later."
-      );
-    }
-  };
+  // const addToCalendar = async (destination, tripDate, endDate) => {
+  //   try {
+  //     const { status } = await Calendar.requestCalendarPermissionsAsync();
+  //     if (status === "granted") {
+  //       const calendars = await Calendar.getCalendarsAsync(
+  //         Calendar.EntityTypes.EVENT
+  //       );
+  //       const defaultCalendar = calendars.find((cal) => cal.isPrimary);
+  //       if (defaultCalendar) {
+  //         const eventDetails = {
+  //           title: `Trip to ${destination}`,
+  //           startDate: new Date(tripDate),
+  //           endDate: new Date(endDate),
+  //           timeZone: "local",
+  //           accessLevel: Calendar.CalendarAccessLevel.DEFAULT,
+  //         };
+  //         await Calendar.createEventAsync(defaultCalendar.id, eventDetails);
+  //         Alert.alert("Success", "Trip added to calendar!");
+  //       } else {
+  //         Alert.alert(
+  //           "Calendar Not Found",
+  //           "No primary calendar found. Please make sure you have a primary calendar set up on your device."
+  //         );
+  //       }
+  //     } else {
+  //       Alert.alert(
+  //         "Permission Denied",
+  //         "Calendar access permission is required to add trips to your calendar."
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding trip to calendar:", error);
+  //     Alert.alert(
+  //       "Error",
+  //       "Failed to add trip to calendar. Please try again later."
+  //     );
+  //   }
+  // };
 
   const shareTrip = (destination, tripDate, endDate, budget) => {
     try {
@@ -185,7 +185,7 @@ export default function Home({ navigation, route }) {
               >
                 <Text style={{ color: "white" }}>Share Trip</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() =>
                   addToCalendar(
                     trip.trip.destination,
@@ -196,7 +196,7 @@ export default function Home({ navigation, route }) {
                 style={[styles.btn]}
               >
                 <Text style={{ color: "white" }}>Add to Calendar</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {/* Input field for amount spent */}
             <TextInput

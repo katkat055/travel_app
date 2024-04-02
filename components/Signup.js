@@ -24,6 +24,7 @@ export default function Signup({ navigation }) {
         email: email,
         uid: user.uid,
       });
+      navigation.navigate("Login");
     } catch (error) {
       Alert.alert("Error", error.message);
     }
@@ -78,7 +79,9 @@ export default function Signup({ navigation }) {
           }}
         >
           <Text>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login", { name } )}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login", { name })}
+          >
             <Text style={styles.underline}>Log In</Text>
           </TouchableOpacity>
         </View>
