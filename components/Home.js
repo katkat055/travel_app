@@ -13,6 +13,7 @@ import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import * as Calendar from "expo-calendar";
 import { styles } from "../styles.js";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Home({ navigation, route }) {
   const { user, name, uid } = route.params;
@@ -37,6 +38,24 @@ export default function Home({ navigation, route }) {
 
     fetchData();
   }, [uid]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        if (uid) {
+          const collectionRef = collection(db, `users/${uid}/trips`);
+          const querySnapshot = await getDocs(collectionRef);
+          let tripsList = [];
+          querySnapshot.forEach((doc) => {
+            tripsList.push({ id: doc.id, trip: doc.data() });
+          });
+          setTrips(tripsList);
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }, [uid])
+  );
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
