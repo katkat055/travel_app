@@ -157,7 +157,9 @@ export default function Home({ navigation, route }) {
     <ScrollView style={styles.allpadding}>
       <Text style={styles.title}>Welcome, {name}</Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Addtrip", { user, uid, name })}
+        onPress={() =>
+          navigation.navigate("Addtrip", { user: { uid: uid }, name: name })
+        }
         style={styles.btn}
       >
         <Text style={{ color: "white" }}>Add Trip</Text>
@@ -185,7 +187,7 @@ export default function Home({ navigation, route }) {
                     tripId: trip.id,
                     user: user,
                     uid: uid,
-                    name: name
+                    name: name,
                   })
                 }
                 style={[styles.btn]}

@@ -22,7 +22,7 @@ export default function Addtrip({ navigation, route }) {
         createdAt: new Date(),
       });
       Alert.alert("Trip added", "Your trip has been successfully added.");
-      navigation.navigate("Home", { uid: user.uid, name: name, uid: uid  }); 
+      navigation.navigate("Home", { uid: user.uid, name: name }); 
     } catch (error) {
       console.log(error);
       Alert.alert(
