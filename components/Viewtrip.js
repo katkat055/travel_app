@@ -5,7 +5,7 @@ import { db } from "../config/firebase.js";
 import { styles } from "../styles.js";
 
 export default function Viewtrip({ navigation, route }) {
-  const { tripId, uid } = route.params;
+  const { tripId, uid, name, user } = route.params;
   const [trip, setTrip] = useState(null);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function Viewtrip({ navigation, route }) {
       setTrip(null);
       console.log("Trip deleted successfully!");
       alert("Trip deleted successfully!");
-      navigation.navigate("Home", { uid });
+      navigation.navigate("Home", { uid, name });
     } catch (error) {
       console.error("Error deleting trip: ", error);
       alert("Trip deleted successfully!");

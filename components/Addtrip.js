@@ -10,7 +10,7 @@ export default function Addtrip({ navigation, route }) {
   const [tripDate, setTripDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [budget, setBudget] = useState("");
-  const { user, uid } = route.params;
+  const { user, uid, name } = route.params;
 
   const handleAddTrip = async () => {
     try {
@@ -22,7 +22,7 @@ export default function Addtrip({ navigation, route }) {
         createdAt: new Date(),
       });
       Alert.alert("Trip added", "Your trip has been successfully added.");
-      navigation.navigate("Home", { uid: user.uid }); 
+      navigation.navigate("Home", { uid: user.uid, name: name, uid: uid  }); 
     } catch (error) {
       console.log(error);
       Alert.alert(
