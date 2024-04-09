@@ -1,0 +1,5 @@
+![IMG_2927](https://github.com/katkat055/travel_app/assets/116454492/e28b0319-920b-44b6-86be-2e5ab4770621)
+![IMG_2932](https://github.com/katkat055/travel_app/assets/116454492/1b69a3a9-41cc-4b37-a6d4-098aa7eab836)
+![IMG_2929](https://github.com/katkat055/travel_app/assets/116454492/1bd1635c-faaa-49a6-83f6-f8e7efe7d5e4)
+![IMG_2930](https://github.com/katkat055/travel_app/assets/116454492/d878a1f1-e385-41d5-87ab-71485779f916)
+![IMG_2931](https://github.com/katkat055/travel_app/assets/116454492/5fe4ceb8-76f1-43ee-bc5b-3988d1571139)
