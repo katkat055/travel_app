@@ -239,10 +239,10 @@ export default function Home({ navigation, route }) {
               onPress={() => handleSubtract(trip.id, inputValue[trip.id] || "")}
             />
             {/* Remaining budget */}
-            <Text>
+            {/* <Text>
               Remaining Budget:{" "}
               {trip.trip.budget - parseFloat(inputValue[trip.id] || 0)}
-            </Text>
+            </Text> */}
           </View>
         ))}
       </View>
